@@ -23,18 +23,33 @@ function parseFile(filename, cb) {
     cb("No filename specified", null);
   } else {
     var fs = require('fs');
-    fs.readFile(filename, function(err, data) {
+    fs.readFile(filename, {encoding: 'utf8'}, function(err, data) {
       if (err) cb(err);
 
-      var lines = data.toString().split("\n");
+      var lines = data.split("\n");
       for (var i=0;i<lines.length;i++) {
         var re = /@include\(([A-Za-z0-9\. \/]+)\)/g;
         lines[i] = lines[i].replace(re, function(match, p, offset, string) {
-          return "[" + p + "]";
+          return getPathContent(p);
         });
       }
       var newData = lines.join("\n");
       cb(err, newData);
     });
+  }
+}
+
+function getPathContent(path) {
+  var fs = require('fs');
+  var stats = fs.statSync(path);
+  if (stats.isDirectory()) {
+    var files = fs.readdirSync(path);
+    content = [];
+    for (var i=0;i<files.length;i++) {
+      content.push(fs.readFile(files[i], {encoding: 'utf8'}));
+    }
+    return content.join("").trimRight();
+  } else {
+    return fs.readFileSync(path, {encoding: 'utf8'}).trimRight();
   }
 }
