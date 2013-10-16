@@ -23,6 +23,18 @@ function parseFile(filename, cb) {
     cb("No filename specified", null);
   } else {
     var fs = require('fs');
-    fs.readFile(filename, cb);
+    fs.readFile(filename, function(err, data) {
+      if (err) cb(err);
+
+      var lines = data.toString().split("\n");
+      for (var i=0;i<lines.length;i++) {
+        var re = /@include\(([A-Za-z0-9\. \/]+)\)/g;
+        lines[i] = lines[i].replace(re, function(match, p, offset, string) {
+          return "[" + p + "]";
+        });
+      }
+      var newData = lines.join("\n");
+      cb(err, newData);
+    });
   }
 }
