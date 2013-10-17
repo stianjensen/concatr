@@ -12,10 +12,9 @@ Serve an input file on localhost:
 
 ```concatr serve FILENAME```
 
-In the file you're parsing, instances of `@include(PATH)` will be replaced with either contents of a file, or the contents of all files in a folder.
+In the file you're parsing, instances of `@include(PATH)` will be replaced with either contents of a file, or the contents of all files in a folder *(alphabetically)*.
 
 # To do:
 
 - Make `concatr serve` watch for changes and update live.
 - Have concatr parse included files for @include tags.
-- Make folder includes sortable (currently it's pretty random).

@@ -43,7 +43,7 @@ function getPathContent(path) {
   var fs = require('fs');
   var stats = fs.statSync(path);
   if (stats.isDirectory()) {
-    var files = fs.readdirSync(path);
+    var files = fs.readdirSync(path).sort();
     content = [];
     for (var i=0;i<files.length;i++) {
       var filename = path + "/" + files[i];
