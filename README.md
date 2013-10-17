@@ -18,3 +18,4 @@ In the file you're parsing, instances of `@include(PATH)` will be replaced with 
 
 - Make `concatr serve` watch for changes and update live.
 - Have concatr parse included files for @include tags.
+- Let the user select output file name.
