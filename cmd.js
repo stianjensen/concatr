@@ -46,10 +46,13 @@ function getPathContent(path) {
     var files = fs.readdirSync(path);
     content = [];
     for (var i=0;i<files.length;i++) {
-      content.push(fs.readFile(files[i], {encoding: 'utf8'}));
+      var filename = path + "/" + files[i];
+      console.log("Parsing file %s", filename);
+      content.push(fs.readFileSync(filename, {encoding: 'utf8'}));
     }
     return content.join("").trimRight();
   } else {
+    console.log("Parsing file %s", path);
     return fs.readFileSync(path, {encoding: 'utf8'}).trimRight();
   }
 }
